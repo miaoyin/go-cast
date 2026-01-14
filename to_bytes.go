@@ -70,3 +70,25 @@ func NumberToBE(v any) ([]byte, error) {
 		return nil, fmt.Errorf("unknown type: %T", converted)
 	}
 }
+
+//BToUE  []byte-->uintX
+func BToUE(v []byte) (any, error) {
+	switch len(v) {
+	case 1:
+		return uint8(v[0]), nil
+	case 2:
+		return binary.BigEndian.Uint16(v), nil
+	case 4:
+		return binary.BigEndian.Uint32(v), nil
+	case 8:
+		return binary.BigEndian.Uint64(v), nil
+	default:
+		return nil, fmt.Errorf("unknown length: %d", len(v))
+	}
+}
+
+//BToU  []byte-->uintX
+func BToU(v []byte) any {
+	converted, _ := BToUE(v)
+	return converted
+}
